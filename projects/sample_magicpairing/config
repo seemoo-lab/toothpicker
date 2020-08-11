@@ -1,0 +1,12 @@
+[fuzzer]
+log_level       = 3 # debug
+
+[target]
+process_name    = "bluetoothd"
+frida_script    = "harness.js"
+remote_frida    = true
+recv_timeout    = 0.1
+fuzz_in_process = true
+modules         = [
+    "/usr/sbin/bluetoothd"
+]

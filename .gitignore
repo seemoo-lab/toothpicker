@@ -1,0 +1,43 @@
+__pycache__
+_internalblue.log
+btsnoop.log
+
+# stupid macos files
+.DS_Store
+
+# PyCharm stuff (since we don't want others to know we don't use vim all the time)
+.idea/
+
+# python-virtualenv directory
+.venv
+build
+dist
+egg
+frizzer/libradamsa.so
+frizzer.egg-info
+node_modules
+package-lock.json
+# harness.js is generated using frida-compile, thus we don't want
+# to push it
+harness.js
+
+# file generated at runtime by frizzer:
+# - frizzer history, so it knows where it has been stopped
+projects/*/frida_fuzzer.history
+# - state, containing additional information about where has been stopped
+projects/*/state
+# - coverage information
+projects/*/*_coverage/
+
+# ignore everything within the bnep's crash directory
+# but the .keep file to keep the directory structure
+projects/bnep/crashes/*
+!projects/bnep/crashes/.keep
+# ignore everything within the bnep's corpus directory
+# but the .keep file to keep the directory structure
+projects/bnep/corpus/*
+!projects/bnep/corpus/.keep
+# ignoring the history directory, containing local wip-stuff which is not
+# meant to be sync via git
+/projects/bnep/history/*
+
