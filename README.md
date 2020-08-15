@@ -82,7 +82,7 @@ it is not packaged.
 
 Slightly different commands compared to the Arch Linux setup...
 ```bash
-brew install libimobiledevice usbmuxd radamsa npm frida-tools
+brew install libimobiledevice usbmuxd radamsa npm
 idevicepair pair
 npm install frida-compile
 pip3 install frida-tools
