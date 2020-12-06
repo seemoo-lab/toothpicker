@@ -1,4 +1,4 @@
-![ToothPicker Logo](toothpicker.png)
+![ToothPicker Logo](assets/toothpicker.png)
 
 
 # ToothPicker
