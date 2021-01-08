@@ -56,6 +56,15 @@ class FridaFuzzer:
         self.fuzz_count = 0
         self.previous_payload = None
         self._frida_script_obj = None
+        self.metric_file = None
+        self.mutation_time = 0
+        self.process_payload_time = 0
+        self.get_coverage_of_payload_time = 0
+        self.send_fuzz_payload_in_process_time = 0
+        self.fuzz_get_coverage_time = 0
+        self.initial_seed = 0
+        self.current_speed_avg = 0
+        self.corpus_blacklist = []
 
         if not os.path.exists(project.coverage_dir):
             os.mkdir(project.coverage_dir)
