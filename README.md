@@ -13,8 +13,14 @@ to fuzz Apple's MagicPairing protocol using
 the ``ReplayCrashFile.py`` script that can be used to verify crashes the in-process
 fuzzer has found.
 
+## New: Inplace Fuzzer (ToothFlipper)
+This is a very simple fuzzer that only flips bits and bytes in active connections.
+No coverage-guidance, no injection, but nice as a demo and stateful.
+Runs just with Python+Frida, no modules or installation required.
+Tested on iOS 13.5-14.3. See [inplace-fuzzer](inplace-fuzzer/).
+
 ## In-Process Fuzzer
-The In-Process Fuzzer works out-of-the-box on various iOS versions (13.3-13.6 tested), but
+The In-Process Fuzzer works out-of-the-box on various iOS versions (13.3-13.7 tested), but
  [symbols need to be specified](harness/symbols.js). Other iOS versions
 require adaptions to function addresses. Additionally, it seems like FRIDA's stalker
 has some problems with the iPhone 8. On newer iPhones that support
