@@ -29,7 +29,6 @@ import project
 from coverage import parse_coverage, write_drcov_file
 from radamsa import radamsa_mutate, use_libradamsa
 
-
 #
 # FridaFuzzer Class
 #
@@ -63,9 +62,8 @@ class FridaFuzzer:
         self.send_fuzz_payload_in_process_time = 0
         self.fuzz_get_coverage_time = 0
         self.initial_seed = 0
-        self.current_speed_avg = 0
-        self.corpus_blacklist = []
 
+    def get_module_map(self):
         if not os.path.exists(project.coverage_dir):
             os.mkdir(project.coverage_dir)
 
@@ -152,7 +150,7 @@ class FridaFuzzer:
         self.frida_script.prepare()
         return script
 
-    def send_fuzz_payload_in_process(self, payload):
+    def send_fuzz_payload_in_process(self, payload, original_corpus_file, corpus):
         """
         Send fuzzing payload to target process by invoking the target function
         directly in frida
@@ -171,13 +169,6 @@ class FridaFuzzer:
             if original_corpus_file not in self.corpus_blacklist:
                 log.info("adding %s to corpus blacklist due to crash." % original_corpus_file) 
                 self.corpus_blacklist.append(original_corpus_file)
-            # # remove responsible corpus file from corpus list (but not from disk)
-            # if original_corpus_file and corpus:
-            #     # need to check if we already removed this, other mutations from this corpus
-            #     # might still arrive here
-            #     if original_corpus_file in corpus:
-            #         log.info("Removing %s from corpus due to crash." % original_corpus_file)
-            #         corpus.remove(original_corpus_file)
 
             # save crash file
             crash_file = self.project.crash_dir + time.strftime("/%Y%m%d_%H%M%S_crash")
@@ -188,7 +179,7 @@ class FridaFuzzer:
             log.info("Payload is written to " + crash_file)
             self.project.crashes += 1
 
-    def get_coverage_of_payload(self, payload, timeout=0.1, retry=5):
+    def get_coverage_of_payload(self, payload, original_corpus_file, corpus, timeout=0.1, retry=5):
         """
         Sends of the payload and checks the returned coverage.
 
@@ -283,8 +274,6 @@ class FridaFuzzer:
 
                 if coverage_last is not None and coverage_last != coverage:
                     log.warn(t + " [iteration=%d] Inconsistent coverage for %s!" % (i, infile))
-                    # log.info("diff a-b:" + " ".join([str(x) for x in coverage_last.difference(coverage)]))
-                    # log.info("diff b-a:" + " ".join([str(x) for x in coverage.difference(coverage_last)]))
 
                 coverage_last = coverage
                 # Accumulate coverage:
@@ -307,7 +296,7 @@ class FridaFuzzer:
         start_time = time.time()
         for pkt_file in corpus:
             # log.update("[seed=%d] " % seed + time.strftime("%Y-%m-%d %H:%M:%S") + " %s" % pkt_file)
-            #log.info(time.strftime("%Y-%m-%d %H:%M:%S") + " %s" % pkt_file)
+            # log.info(time.strftime("%Y-%m-%d %H:%M:%S") + " %s" % pkt_file)
             start = ms_time_now()
             if not use_libradamsa():
                 fuzz_pkt = check_output(["radamsa", "-s", str(seed), pkt_file])
@@ -447,8 +436,6 @@ class FridaFuzzer:
             coverage = self.get_coverage_of_payload(b'FOOBAR')
         except (frida.TransportError, frida.InvalidOperationError) as e:
             log.success("Server Crashed! Lets narrow it down")
-            # TODO
-            # Rabbit Mode here
 
         log.warn("History did not crash the Server! Might be due to some race conditions.")
         return False
@@ -487,7 +474,7 @@ class FridaFuzzer:
         t = threading.Timer(1.0, self.metric_timer_fn)
         t.start()
 
-    def fuzzerLoop(self):
+    def fuzzer_loop(self):
         self.get_module_map()
         try:
             self.start_time = time.time()
