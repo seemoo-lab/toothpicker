@@ -62,7 +62,7 @@ class FridaFuzzer:
         self.send_fuzz_payload_in_process_time = 0
         self.fuzz_get_coverage_time = 0
         self.initial_seed = 0
-        self.corpus_blacklist = []
+        self.corpus_filter = []
 
         if not os.path.exists(self.project.coverage_dir):
             os.mkdir(self.project.coverage_dir)
@@ -138,7 +138,7 @@ class FridaFuzzer:
         log.info("on_message (data): " + str(data))
 
     def load_script(self):
-        script_file = os.path.join(self.project.frida_script)
+        script_file = os.path.join(self.project.project_dir, self.project.frida_script)
         log.info("Loading script: %s" % script_file)
         script_code = open(script_file, "r").read()
         script = self.frida_session.create_script(script_code, runtime='v8')
@@ -166,9 +166,9 @@ class FridaFuzzer:
             truncated_payload = str(binascii.hexlify(payload))[:25]
             log.warn("had payload: " + truncated_payload + "[...]")
 
-            if original_corpus_file not in self.corpus_blacklist:
-                log.info("adding %s to corpus blacklist due to crash." % original_corpus_file) 
-                self.corpus_blacklist.append(original_corpus_file)
+            if original_corpus_file not in self.corpus_filter:
+                log.info("adding %s to corpus filter list due to crash." % original_corpus_file) 
+                self.corpus_filter.append(original_corpus_file)
 
             # save crash file
             crash_file = self.project.crash_dir + time.strftime("/%Y%m%d_%H%M%S_crash")
@@ -249,7 +249,7 @@ class FridaFuzzer:
         corpus = [self.project.corpus_dir + "/" + x for x in os.listdir(self.project.corpus_dir)]
         corpus.sort()
 
-        for c in self.corpus_blacklist:
+        for c in self.corpus_filter:
             if c in corpus:
                 corpus.remove(c)
 
@@ -494,7 +494,7 @@ class FridaFuzzer:
                     log.info("stopping fuzzer loop")
                     return False
                 self.corpus = [self.project.corpus_dir + "/" + f for f in os.listdir(self.project.corpus_dir)]
-                for c in self.corpus_blacklist:
+                for c in self.corpus_filter:
                     if c in self.corpus:
                         self.corpus.remove(c)
                 self.corpus.sort()
