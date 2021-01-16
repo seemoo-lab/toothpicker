@@ -127,10 +127,10 @@ cd harness
 npx frida-compile ../projects/YOUR_PROJECT/YOUR_SPECIALIZED_HARNESS.JS -o ../projects/YOUR_PROJECT/harness.js
 cd ../projects/YOUR_PROJECT/
 mkdir crashes
-frizzer fuzz -p .
+../../frizzer/fuzzer.py fuzz -p .
 ```
 
-You can start with a different seed by using ``frizzer fuzz --seed 1234 -p .``.
+You can start with a different seed by using ``frizzer/fuzzer.py fuzz --seed 1234 -p .``.
 
 **Adding new iOS versions:**
 
