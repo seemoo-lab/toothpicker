@@ -62,10 +62,10 @@ class FridaFuzzer:
         self.send_fuzz_payload_in_process_time = 0
         self.fuzz_get_coverage_time = 0
         self.initial_seed = 0
+        self.corpus_blacklist = []
 
-    def get_module_map(self):
-        if not os.path.exists(project.coverage_dir):
-            os.mkdir(project.coverage_dir)
+        if not os.path.exists(self.project.coverage_dir):
+            os.mkdir(self.project.coverage_dir)
 
     def get_module_map(self):
         if self.frida_script is None:
