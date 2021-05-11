@@ -29,7 +29,7 @@ class MPFuzzer:
     
     def __init__(self, target):
         # set up internalblue, adapt if you need a different core or device
-        self.internalblue = iOSCore(log_level=10)
+        self.internalblue = iOSCore(log_level="DEBUG")
         devices = self.internalblue.device_list()
         i = options("Please specify device: ", [d[2] for d in devices], 0)
         self.internalblue.interface = self.internalblue.device_list()[i][1]
