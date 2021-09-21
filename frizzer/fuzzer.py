@@ -63,6 +63,7 @@ class FridaFuzzer:
         self.fuzz_get_coverage_time = 0
         self.initial_seed = 0
         self.corpus_filter = []
+        self.current_speed_avg = 0
 
         if not os.path.exists(self.project.coverage_dir):
             os.mkdir(self.project.coverage_dir)

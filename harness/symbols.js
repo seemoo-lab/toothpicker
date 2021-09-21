@@ -123,6 +123,85 @@ exports.symbols = {
         is_internal_build: 0x7aa50,
     },
 
+    // iOS 14.4, pre A12
+    // same for iPhone 7+8
+    symbols_ios_14_4_iphone8: {
+        allocateACLConnection: 0xEBA68,
+        allocateLEConnection: 0xEBE14,
+        OI_SignalMan_Recv: 0x134F38,
+        OI_L2CAP_Recv: 0x12C184,
+        bt_forceDisconnect: 0xD0AA0,
+        ACL_reception_handler: 0xF1254,
+        OI_HCI_ReleaseConnection: 0xEC0A8,
+        create_connection: 0x145D40,
+        _GATT_LE_DisconnectedCB: 0x13EC78,
+        ReadRemoteVersionInformationCB: 0x14BDDC,
+        hci_handle_exists: 0xEB6C4,
+        LE_ReadRemoteVersionInformationComplete: 0x146E54,
+        OI_LP_ConnectionAdded: 0x118354,
+        //btstack_free: 0x785F0,
+        startSecurityPolicyEnforcement: 0x17FA44,
+        enforceLinkPolicy: 0x180144,
+        registerTimeout: 0x17DC2C,
+        ble_adv_stuff: 0x440E48,
+        coreDumpPacketCounter: 0x319DB0,  // version w/o bcs debug print
+        OI_L2CAP_WriteMBUF: 0x114050,
+        is_internal_build: 0x77244,
+    },
+
+    // iOS 14.7, pre A12
+    // same for iPhone 7+8
+    symbols_ios_14_7_iphone8: {
+        allocateACLConnection: 0xEC9B4,
+        allocateLEConnection: 0xECD60,
+        OI_SignalMan_Recv: 0x1373C4,
+        OI_L2CAP_Recv: 0x12E3A0,
+        bt_forceDisconnect: 0xD19BC,
+        ACL_reception_handler: 0xF2198,
+        OI_HCI_ReleaseConnection: 0xECFF4,
+        create_connection: 0x148D1C,
+        _GATT_LE_DisconnectedCB: 0x141130,
+        ReadRemoteVersionInformationCB: 0x14EE6C,
+        hci_handle_exists: 0xEC610,
+        LE_ReadRemoteVersionInformationComplete: 0x149E38,
+        OI_LP_ConnectionAdded: 0x11A414,
+        //btstack_free: 0x75E5C,
+        startSecurityPolicyEnforcement: 0x182D18,
+        enforceLinkPolicy: 0x183418,
+        registerTimeout: 0x180F00,
+        ble_adv_stuff: 0x464B14,
+        coreDumpPacketCounter: 0x331ED4,
+        OI_L2CAP_WriteMBUF: 0x1160FC,
+        is_internal_build: 0x74AB0,
+    },
+
+    // iOS 14.8, pre A12
+    // same for iPhone 7+8
+    // tested and fuzzing works :)
+    symbols_ios_14_8_iphone8: {
+        allocateACLConnection: 0xEC3A4,
+        allocateLEConnection: 0xEC750,
+        OI_SignalMan_Recv: 0x136DB4,
+        OI_L2CAP_Recv: 0x12DD90,
+        bt_forceDisconnect: 0xD13AC,
+        ACL_reception_handler: 0xF1B88,
+        OI_HCI_ReleaseConnection: 0xEC9E4,
+        create_connection: 0x14870C,
+        _GATT_LE_DisconnectedCB: 0x140B20,
+        ReadRemoteVersionInformationCB: 0x14E85C,
+        hci_handle_exists: 0xEC000,  // misdetected by BinDiff, found via OI_HCIIfc_DataReceived
+        LE_ReadRemoteVersionInformationComplete: 0x149828,
+        OI_LP_ConnectionAdded: 0x119E04,
+        //btstack_free: 0x7584C,
+        startSecurityPolicyEnforcement: 0x1826FC,
+        enforceLinkPolicy: 0x182DFC,
+        registerTimeout: 0x1808E4,
+        ble_adv_stuff: 0x4648B4,  // low BinDiff confidence but uses the same strings
+        coreDumpPacketCounter: 0x331960,  // misdetected by BinDiff because it now also prints the BCS state
+        OI_L2CAP_WriteMBUF: 0x115AEC,
+        is_internal_build: 0x744A0,
+    },
+
     // iOS 13.5, A12+
     symbols_ios_13_3_iphone11: {
         allocateACLConnection: 0xcaec4,

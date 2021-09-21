@@ -3,7 +3,7 @@ var symbol_library = require("./symbols.js");
 var base = Module.getBaseAddress("bluetoothd");
 
 // TODO: select iOS version from symbols file (symbols.js)
-var symbols = symbol_library.symbols.symbols_ios_13_6_iphone8;
+var symbols = symbol_library.symbols.symbols_ios_14_4_iphone8;
 
 // Allocate global buffers used during fuzzing
 var bd_addr_native = Memory.alloc(8);
